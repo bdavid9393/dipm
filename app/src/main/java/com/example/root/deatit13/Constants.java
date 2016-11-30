@@ -9,7 +9,7 @@ public class Constants {
     public static final String BASE_URL = "http://audiautomatavalto.hu/";
     public static final String REGISTER_OPERATION = "register";
     public static final String LOGIN_OPERATION = "login";
-    public static final String valto="teee";
+
 
 
     public static final String SUCCESS = "success";
