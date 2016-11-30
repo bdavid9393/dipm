@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private EditText et_email;
     private EditText et_password;
 
+    private ProgressBar progress;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,13 +47,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         tv_login = (TextView) view.findViewById(R.id.tv_login);
         tv_login.setOnClickListener(this);
+
         btn_ett_reg = (Button) view.findViewById(R.id.btn_ettermiReg);
         btn_ett_reg.setOnClickListener(this);
+
         btn_reg = (Button) view.findViewById(R.id.btn_reg);
         btn_reg.setOnClickListener(this);
         et_name = (EditText) view.findViewById(R.id.et_name);
         et_email = (EditText) view.findViewById(R.id.et_email);
         et_password = (EditText) view.findViewById(R.id.et_password);
+
+        progress=(ProgressBar) view.findViewById(R.id.progress);
 
 
     }
@@ -113,7 +120,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "Töltse ki az összes mezőt!", Toast.LENGTH_SHORT).show();
 
         } else {
-
+            progress.setVisibility(View.VISIBLE);
             ServerRequest request = new ServerRequest();
             request.setOperation(Constants.REGISTER_OPERATION);
             request.setUser(user);
@@ -123,6 +130,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             response.enqueue(new Callback<ServerResponse>() {
                                  @Override
                                  public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
+
+                                     progress.setVisibility(View.INVISIBLE);
 
                                      ServerResponse resp = response.body();
                                      Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_LONG).show();

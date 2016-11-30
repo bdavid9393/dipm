@@ -1,10 +1,12 @@
 package com.example.root.deatit13;
 
+import java.io.Serializable;
+
 /**
  * Created by root on 05.11.16.
  */
 
-public class User {
+public class User implements Serializable{
     private String name;
     private String email;
     private String unique_id;

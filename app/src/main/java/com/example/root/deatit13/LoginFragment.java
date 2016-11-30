@@ -2,14 +2,18 @@ package com.example.root.deatit13;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.Serializable;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +31,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private EditText et_email;
     private EditText et_password;
+
+    private ProgressBar progress;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -49,6 +55,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         et_email = (EditText) view.findViewById(R.id.et_email);
         et_password = (EditText) view.findViewById(R.id.et_password);
 
+        progress=(ProgressBar) view.findViewById(R.id.progress);
 
     }
 
@@ -92,7 +99,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         API requestInterface = retrofit.create(API.class);
 
 
-        User user = new User();
+        final User user = new User();
         user.setEmail(et_email.getText().toString());
         user.setPassword(et_password.getText().toString());
 
@@ -101,6 +108,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         } else {
 
+            progress.setVisibility(View.VISIBLE);
 
             ServerRequest request = new ServerRequest();
             request.setOperation(Constants.LOGIN_OPERATION);
@@ -111,10 +119,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             response.enqueue(new Callback<ServerResponse>() {
                                  @Override
                                  public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
-
+                                     progress.setVisibility(View.INVISIBLE);
                                      ServerResponse resp = response.body();
-
                                      Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_LONG).show();
+
+
+                                     if(resp.getResult().equalsIgnoreCase(Constants.SUCCESS)) {
+                                         Intent intent = new Intent(LoginFragment.this.getActivity(), LoggedIn.class);
+                                         intent.putExtra("user", user);
+
+                                         startActivity(intent);
+                                     }
 
 
                                  }
@@ -133,4 +148,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
+
 }
