@@ -22,7 +22,7 @@ import com.google.android.gms.location.LocationServices;
 
 public class LoggedIn extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    private CurrLocation CurrLoc = new CurrLocation();
+
     private Button btn_logout;
     private TextView tv_welcome;
     private TextView tv_loc;
