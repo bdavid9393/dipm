@@ -1,5 +1,7 @@
 package com.example.root.deatit13;
 
+import android.location.Location;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,8 @@ public class User implements Serializable{
     private String password;
     private String old_password;
     private String new_password;
+    private Location LastKnownPos;
+
 
 
     public String getName() {
@@ -61,5 +65,13 @@ public class User implements Serializable{
 
     public void setNew_password(String new_password) {
         this.new_password = new_password;
+    }
+
+    public Location getLastKnownPos() {
+        return LastKnownPos;
+    }
+
+    public void setLastKnownPos(Location lastKnownPos) {
+        LastKnownPos = lastKnownPos;
     }
 }
